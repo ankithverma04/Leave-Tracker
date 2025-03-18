@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block title %}View Leave Records{% endblock %}
+
+{% block section %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="{{ url_for('dashboard', user_type= session['user_type']) }}" class="btn btn-secondary btn-sm" style="width: auto; display: inline-flex; align-items: center;">
+            <i class="fa fa-chevron-circle-left"></i> Dashboard
+        </a>
+    <h2 class="text-center mb-0 flex-grow-1">Your Leave Records</h2>
+</div>
+    {% if leave_records %}
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>From Date</th>
+                    <th>To Date</th>
+                    <th>Reason</th>
+                    <th>File</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for leave in leave_records %}
+                <tr>
+                    <td>{{ leave.from_date }}</td>
+                    <td>{{ leave.to_date }}</td>
+                    <td>{{ leave.reason }}</td>
+                    <td>
+                        {% if leave.file %}
+                        <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#fileModal" onclick="openFileModal('{{ url_for('static', filename='uploads/' + leave.file) }}', '{{ leave.file.split('.')[-1] }}')">
+                            <i class="fas fa-eye"></i> View File
+                        </button>
+                        {% else %}
+                        <span class="text-muted">No File</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ leave.description }}</td>
+                    <td>
+                        <span class="badge bg-{{ 'success' if leave.status == 'Approved' else 'danger' if leave.status == 'Rejected' else 'secondary' }} text-capitalize">
+                            <i class="fas fa-check-circle"></i> {{ leave.status }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="text-center text-muted">No leave records found.</p>
+    {% endif %}
+</div>
+
+<!-- Modal for File View -->
+<div class="modal fade" id="fileModal" tabindex="-1" aria-labelledby="fileModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="fileModalLabel">View File</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="fileModalBody">
+        <!-- Content dynamically injected based on file type -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    // Function to open file in the modal
+    function openFileModal(fileUrl, fileType) {
+        const modalBody = document.getElementById('fileModalBody');
+        if (fileType === 'jpg' || fileType === 'jpeg' || fileType === 'png' || fileType === 'gif') {
+            // Render image directly
+            modalBody.innerHTML = `<img src="${fileUrl}" style="width: 100%; height: auto;" alt="File">`;
+        } else if (fileType === 'pdf') {
+            // Render PDF file in an iframe
+            modalBody.innerHTML = `<iframe src="${fileUrl}" style="width: 100%; height: 80vh;" frameborder="0"></iframe>`;
+        } else {
+            // Render other file types with a download link
+            modalBody.innerHTML = `<p>File type not supported for preview. <a href="${fileUrl}" target="_blank">Download the file</a></p>`;
+        }
+    }
+</script>
+
+<style>
+    /* Adding hover effect to table rows */
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+        cursor: pointer;
+    }
+
+    /* Styling for modal */
+    .modal-content {
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        background-color: #007bff;
+        color: white;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .btn-close {
+        background-color: #fff;
+        border: none;
+        font-size: 1.5rem;
+    }
+
+    /* Custom styling for the file view buttons */
+    .btn-info {
+        font-weight: bold;
+    }
+
+    /* Styling for badge with status */
+    .badge {
+        font-size: 1rem;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+    }
+
+    /* Font Awesome Icons */
+    .fa-eye {
+        margin-right: 5px;
+    }
+
+    .fa-check-circle {
+        margin-right: 5px;
+    }
+
+    /* Improved modal body */
+    #fileModalBody {
+        text-align: center;
+    }
+
+    .table td, .table th {
+        vertical-align: middle;
+    }
+</style>
+
+<!-- Font Awesome CDN for Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+{% endblock %}

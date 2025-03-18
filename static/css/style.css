@@ -1,0 +1,202 @@
+.hero-section {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right, #007bff, #0056b3);
+    color: white;
+}
+
+.navbar-brand img {
+   height: 70px;
+    margin-right: 1px;
+}
+
+.form-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-container {
+    margin-top: 50px;
+}
+
+.card {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.table-responsive {
+    max-height: 400px;
+    /* Adjust height as needed */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    border: 1px solid #ccc;
+    /* Optional border */
+    padding: 10px;
+    /* Optional padding */
+    background-color: #f9f9f9;
+    /* Optional background */
+}
+
+iframe {
+    width: 100%;
+    height: 80vh;
+}
+
+iframe img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+.btn-secondary i {
+    font-size: 1.2rem;
+    color: azure;
+}
+
+/* Animate icons */
+@keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  /* Add animation to the card icons */
+  .animated-icon {
+    animation: pulse 1.5s infinite;
+  }
+  
+  .card-icon {
+    margin-bottom: 20px;
+  }
+/* Add gradient backgrounds for the cards */
+.card.text-bg-primary {
+  background: linear-gradient(135deg, #6c7ae0, #4b58ab);
+}
+
+.card.text-bg-secondary {
+  background: linear-gradient(135deg, #a1aab3, #777f91);
+}
+
+.card.text-bg-warning {
+  background: linear-gradient(135deg, #f0bb45, #c79428);
+}
+
+.card.text-bg-info {
+  background: linear-gradient(135deg, #66b3ff, #1e76cc);
+}
+
+/* Animated card hover effect */
+.animated-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.animated-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Add a bounce effect to the icon */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animated-icon {
+  animation: bounce 1s infinite;
+  transition: transform 0.3s ease;
+}
+
+/* Additional hover effects for icons */
+.card-icon:hover {
+  transform: scale(1.2);
+  color: #ffcc00; /* Highlight color on hover */
+}
+
+/* Card content animation */
+.card-body {
+  opacity: 1;  /* Make sure content is always visible */
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Add hints below the card content */
+.card-hint {
+  font-style: italic;
+  color: #ffffff;
+  opacity: 0.7;
+  margin-top: 10px;
+}
+
+/* Optional: More contrast for hints on hover */
+.animated-card:hover .card-hint {
+  opacity: 1;
+}
+/* Style for buttons with icons */
+.btn i {
+    margin-right: 5px; /* Space between the icon and text */
+    font-size: 1.2rem; /* Adjust icon size */
+  }
+  
+  /* Optional: Adjust the hover effects to apply to the icons */
+  .btn:hover i {
+    transform: scale(1.1); /* Slightly increase the icon size on hover */
+    transition: transform 0.3s ease; /* Smooth transition */
+  }
+/* Enhance button transitions */
+.btn {
+    transition: all 0.3s ease;
+}
+
+/* Hover effect on the table rows */
+.table-hover tbody tr:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.02);
+    transition: transform 0.2s ease;
+}
+
+/* File upload input button hover effect */
+.input-group button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Success or error message fade-in effect */
+.alert {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Fade-in animation for alerts */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Styling for Download button */
+.btn-success i {
+    margin-right: 5px;
+}
+    

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Smart Leave | Home{% endblock %}
+
+{% block section %} <!--  adding extra to previous-->
+
+<section class="bg-primary text-white hero-section text-center py-5">
+    <div class="container">
+        <h1 class="display-4">Welcome to Smart Attendance Leave Tracker</h1>
+        <p class="lead">An innovative platform designed to manage student attendance and leave requests effortlessly. Stay organized and simplify your academic schedule.</p>
+
+        <!-- Call to Action Buttons -->
+        <div class="d-flex justify-content-center align-items-center mt-4">
+            <a href="{{ url_for('student_signup') }}" class="btn btn-light btn-lg">Create Account</a>
+            <span class="text-white mx-3">or</span>
+            <a href="{{ url_for('login_view') }}" class="btn btn-light btn-lg ms-3">Login</a>
+        </div>
+
+        <!-- Optional: Brief Instructions / Descriptions -->
+        <div class="mt-4">
+            <p class="small text-white">Already have an account? Log in to track your attendance and manage leave requests. New here? Sign up and get started!</p>
+        </div>
+    </div>
+</section>
+
+<!-- Description Section -->
+<section id="features" class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <img src="https://via.placeholder.com/500" class="img-fluid rounded" alt="Description Image">
+            </div>
+            <div class="col-lg-6">
+                <h2>About the Project</h2>
+                <p>The Smart Attendance Leave Tracker is a comprehensive system for managing student leave applications
+                    and monitoring attendance. Designed for efficiency, it streamlines administrative tasks for
+                    educators and simplifies the leave application process for students.</p>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Admin can approve or reject leave applications with comments.</li>
+                    <li class="list-group-item">Attendance file uploads with fine calculations for low attendance.</li>
+                    <li class="list-group-item">Students can view their leave history and application status.</li>
+                    <li class="list-group-item">Fine reductions for approved leave applications.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %} <!-- End section -->

@@ -1,0 +1,42 @@
+<!-- if you want to apply leave for only upcoming days not previous one -->
+<div class="applyleave-html">
+<!-- Apply leave if no before dates to be applied -->
+{% extends 'base.html' %}
+{% block title %}Apply for Leave{% endblock %}
+
+{% block section %}
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow-lg" style="width: 30rem;">
+        <h2 class="text-center mb-4">Apply for Leave</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="from_date" class="form-label">From Date</label>
+                <input type="date" class="form-control" id="from_date" name="from_date" 
+                    required min="{{ today_date }}" />
+            </div>
+            <div class="mb-3">
+                <label for="to_date" class="form-label">To Date</label>
+                <input type="date" class="form-control" id="to_date" name="to_date" 
+                    required min="{{ today_date }}" />
+            </div>
+            <div class="mb-3">
+                <label for="reason" class="form-label">Reason</label>
+                <select class="form-select" id="reason" name="reason" required>
+                    <option value="" disabled selected>-- Select a reason --</option>
+                    <option value="Medical">Medical</option>
+                    <option value="Events">Events</option>
+                    <option value="Others">Others</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="file" class="form-label">Attach File </label>
+                <input type="file" class="form-control" id="file" name="file" required accept=".pdf,.jpg,.jpeg,.png">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+<!-- End of apply leave html page -->
+</div>
+

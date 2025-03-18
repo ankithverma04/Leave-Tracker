@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Smart Leave | Dashboard{% endblock %}
+
+{% block section %}
+<div class="container dashboard-container">
+  <h1 class="text-center mb-4">Welcome to the {{ user_type.capitalize() }} Dashboard</h1>
+  <div class="text-end mb-4">
+    {% if user_type == 'admin' %}
+    <a href="{{ url_for('logout') }}" class="btn btn-danger btn-sm">
+      <i class="fa fa-sign-out-alt"></i> Logout
+    </a>
+    {% elif user_type == 'student' %}
+    <a href="{{ url_for('logout') }}" class="btn btn-danger btn-sm">
+      <i class="fa fa-sign-out-alt"></i> Logout
+    </a>
+    <a href="{{ url_for('change_password') }}" class="btn btn-warning btn-sm">
+      <i class="fa fa-key"></i> Change Password
+    </a>
+    {% endif %}
+  </div>
+  <div class="row">
+    {% if user_type == 'admin' %}
+    <!-- Admin Dashboard Cards -->
+    <div class="col-md-4">
+      <div class="card text-bg-primary mb-3 animated-card" data-url="{{ url_for('manage_leaves') }}">
+        <div class="card-body">
+          <i class="fa fa-check-circle fa-3x card-icon animated-icon"></i>
+          <h5 class="card-title">Manage Leave Requests</h5>
+          <p class="card-text">Approve or reject student leave applications.</p>
+          <p class="card-hint">Get started by managing leave requests.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-bg-secondary mb-3 animated-card" data-url="{{ url_for('upload_attendance') }}">
+        <div class="card-body">
+          <i class="fa fa-upload fa-3x card-icon animated-icon"></i>
+          <h5 class="card-title">View Attendance</h5>
+          <p class="card-text">Upload attendance files and calculate fines.</p>
+          <p class="card-hint">Track attendance and manage fines.</p>
+        </div>
+      </div>
+    </div>
+
+    {% elif user_type == 'student' %}
+    <!-- Student Dashboard Cards -->
+    <div class="col-md-4">
+      <div class="card text-bg-warning mb-3 animated-card" data-url="{{ url_for('apply_leave') }}">
+        <div class="card-body">
+          <i class="fa fa-calendar-plus fa-3x card-icon animated-icon"></i>
+          <h5 class="card-title">Apply for Leave</h5>
+          <p class="card-text">Submit a leave request with necessary details.</p>
+          <p class="card-hint">Fill in the form and apply for leave.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-bg-info mb-3 animated-card" data-url="{{ url_for('view_leaves') }}">
+        <div class="card-body">
+          <i class="fa fa-eye fa-3x card-icon animated-icon"></i>
+          <h5 class="card-title">View Leave Status</h5>
+          <p class="card-text">Check the status of your leave applications.</p>
+          <p class="card-hint">Track the progress of your leave requests.</p>
+        </div>
+      </div>
+    </div>
+
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.card[data-url]').forEach(card => {
+    card.addEventListener('click', () => {
+      window.location.href = card.getAttribute('data-url');
+    });
+  });
+</script>
+
+{% endblock %} <!-- End section -->

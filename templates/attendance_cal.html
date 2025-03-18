@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+{% block title %}Smart Leave | Upload Attendance{% endblock %}
+
+{% block section %}
+<div class="container mt-5" style="margin-bottom: 20px;">
+    <div class="text-start mb-4">
+        <a href="{{ url_for('dashboard', user_type= session['user_type']) }}" class="btn btn-secondary btn-sm" style="width: auto; display: inline-flex; align-items: center;">
+            <i class="fa fa-chevron-circle-left"></i> Dashboard
+        </a>
+    </div>
+    <h2 class="text-center mb-4">Upload Attendance Files</h2>
+
+    <form method="POST" action="{{ url_for('upload_attendance') }}" enctype="multipart/form-data" id="uploadForm">
+        <div id="fileInputContainer">
+            <!-- Initial file and subject input fields -->
+            <div class="input-block mb-3">
+                <div class="mb-2">
+                    <label for="file1" class="form-label">Attendance File 1</label>
+                    <div class="input-group">
+                        <div class="input-group-text"><i class="fas fa-file-upload"></i></div>
+                        <input type="file" class="form-control" id="file1" name="file1" required accept=".csv">
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <label for="subject1" class="form-label">Subject Name 1</label>
+                    <input type="text" class="form-control" id="subject1" name="subject1" placeholder="Enter subject name" required>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-primary mt-3" id="addButton"><i class="fas fa-plus"></i> Add Another Subject</button>
+        <button type="submit" class="btn btn-success mt-3"><i class="fas fa-upload"></i> Upload Attendance</button>
+    </form>
+
+    <!-- File Preview Section -->
+    {% if preview %}
+    <hr>
+    <h3 class="mt-4 text-center">Processed Data Preview</h3>
+    <div class="table-responsive">
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    {% for col in preview.columns %}
+                    <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in preview.data %}
+                <tr>
+                    {% for cell in row %}
+                    <td>{{ cell }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <a href="{{ download_url }}" class="btn btn-success mt-3"><i class="fas fa-download"></i> Download Complete File</a>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    let fileCounter = 1;
+
+    // Function to add a new file-subject block dynamically
+    function addFileInput() {
+        fileCounter++;
+
+        // Create a new div block for file and subject inputs
+        const block = document.createElement('div');
+        block.classList.add('input-block', 'mb-3');
+        block.innerHTML = `
+            <div class="mb-2">
+                <label for="file${fileCounter}" class="form-label">Attendance File ${fileCounter}</label>
+                <div class="input-group">
+                    <div class="input-group-text"><i class="fas fa-file-upload"></i></div>
+                    <input type="file" class="form-control" id="file${fileCounter}" name="file${fileCounter}" required>
+                </div>
+            </div>
+            <div class="mb-2">
+                <label for="subject${fileCounter}" class="form-label">Subject Name ${fileCounter}</label>
+                <input type="text" class="form-control" id="subject${fileCounter}" name="subject${fileCounter}" placeholder="Enter subject name" required>
+            </div>
+            <button type="button" class="btn btn-danger btn-sm remove-button"><i class="fas fa-trash-alt"></i> Remove</button>
+        `;
+
+        // Add the new block to the container
+        document.getElementById('fileInputContainer').appendChild(block);
+
+        // Add event listener to the remove button
+        block.querySelector('.remove-button').addEventListener('click', () => {
+            block.classList.add('fade-out');
+            fileCounter--;
+            setTimeout(() => block.remove(), 300); // Add fade-out effect before removal
+        });
+    }
+
+    // Add event listener to the "Add" button
+    document.getElementById('addButton').addEventListener('click', addFileInput);
+
+    // File input preview functionality (display file name after selection)
+    document.querySelectorAll('input[type="file"]').forEach(input => {
+        input.addEventListener('change', function() {
+            const fileName = this.files[0]?.name;
+            if (fileName) {
+                this.parentElement.querySelector('.file-name').textContent = `Selected: ${fileName}`;
+            }
+        });
+    });
+</script>
+
+<style>
+    /* Adding some hover and focus effects */
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.25rem rgba(38, 143, 255, 0.5);
+    }
+
+    .btn {
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    /* Adding smooth transition when removing blocks */
+    .fade-out {
+        opacity: 0;
+        transition: opacity 0.3s ease-out;
+    }
+
+    .input-block .remove-button {
+        margin-top: 10px;
+        display: block;
+    }
+
+    /* Style for the file name preview */
+    .file-name {
+        font-style: italic;
+        color: #6c757d;
+        margin-top: 5px;
+    }
+
+    /* Improved layout spacing */
+    .input-block {
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        padding: 15px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+        max-width: 800px;
+    }
+
+    /* Adjusting the input-group for file input */
+    .input-group-text {
+        background-color: #f8f9fa;
+    }
+
+    .btn {
+        display: flex;
+        align-items: center;
+    }
+
+    .btn i {
+        margin-right: 8px;
+    }
+</style>
+
+<!-- Font Awesome CDN for Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+{% endblock %}

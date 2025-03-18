@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block title %}Smart Leave | Student Sign-Up{% endblock %}
+
+{% block section %}
+<!-- Student Sign-Up Page -->
+<div class="container my-5">
+  <div class="form-container shadow p-4 rounded bg-light">
+    <h2 class="text-center mb-4">
+      <i class="fas fa-user-plus"></i> Student Sign-Up
+    </h2>
+
+    <form id="signup-form" method="POST" action="{{ url_for('student_signup') }}">
+      <!-- Full Name -->
+      <div class="mb-3">
+        <label for="studentName" class="form-label">
+          <i class="fas fa-user"></i> Full Name
+        </label>
+        <input type="text" class="form-control" id="studentName" name="name" placeholder="Enter your full name" required>
+      </div>
+
+      <!-- USN -->
+      <div class="mb-3">
+        <label for="studentUSN" class="form-label">
+          <i class="fas fa-id-badge"></i> USN
+        </label>
+        <input type="text" class="form-control" id="studentUSN" name="usn" placeholder="Enter your USN" required>
+        <small class="text-danger d-none" id="usnError">Invalid USN format. For Example 3BR22AI011, 3BR22AI008.</small>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-3">
+        <label for="studentPassword" class="form-label">
+          <i class="fas fa-lock"></i> Password
+        </label>
+        <div class="input-group">
+          <input type="password" class="form-control" id="studentPassword" name="password" placeholder="Create a password" required>
+          <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('studentPassword')">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="mb-3">
+        <label for="confirmPassword" class="form-label">
+          <i class="fas fa-lock"></i> Confirm Password
+        </label>
+        <div class="input-group">
+          <input type="password" class="form-control" id="confirmPassword" name="confirm_password" placeholder="Re-enter password" required>
+          <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('confirmPassword')">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+        <small class="text-danger d-none" id="passwordError">Passwords do not match.</small>
+      </div>
+
+      <!-- Sign-Up Button -->
+      <button type="submit" class="btn btn-success w-100">
+        <i class="fas fa-user-plus"></i> Sign Up
+      </button>
+    </form>
+
+    <div class="mt-3 text-center">
+      <p>Already have an account? <a href="{{ url_for('login_view') }}">Login here</a>.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Toggle password visibility
+  function togglePasswordVisibility(fieldId) {
+    const field = document.getElementById(fieldId);
+    if (field.type === "password") {
+      field.type = "text";
+    } else {
+      field.type = "password";
+    }
+  }
+
+  // Validate USN format live
+  const usnField = document.getElementById("studentUSN");
+  const usnError = document.getElementById("usnError");
+
+  usnField.addEventListener("input", function () {
+    const usnPattern = /^3BR\d{2}AI\d{3}$/;
+    const usnValue = usnField.value;
+    if (usnPattern.test(usnValue)) {
+      const lastThreeDigits = parseInt(usnValue.slice(-3));
+      if (lastThreeDigits <= 500) {
+        usnError.classList.add("d-none");
+        return;
+      }
+    }
+    usnError.classList.remove("d-none");
+  });
+
+  // Validate passwords match live
+  const passwordField = document.getElementById("studentPassword");
+  const confirmPasswordField = document.getElementById("confirmPassword");
+  const passwordError = document.getElementById("passwordError");
+
+  confirmPasswordField.addEventListener("input", function () {
+    if (passwordField.value === confirmPasswordField.value) {
+      passwordError.classList.add("d-none");
+    } else {
+      passwordError.classList.remove("d-none");
+    }
+  });
+
+  // Validate passwords live while typing in the password field
+  passwordField.addEventListener("input", function () {
+    if (passwordField.value === confirmPasswordField.value) {
+      passwordError.classList.add("d-none");
+    } else {
+      passwordError.classList.remove("d-none");
+    }
+  });
+</script>
+{% endblock %}

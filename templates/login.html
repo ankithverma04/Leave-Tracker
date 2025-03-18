@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block title %}Smart Leave | Login{% endblock %}
+
+{% block section %} <!-- Adding extra to the previous section -->
+
+<!-- Login Page -->
+<div class="container my-5">
+  <div class="form-container shadow p-4 rounded bg-light">
+    <h2 class="text-center mb-4">
+      <i class="fas fa-sign-in-alt"></i> Login
+    </h2>
+
+    <form id="login-form" method="POST" action="{{ url_for('login_view') }}">
+      <!-- User Type Selection with Toggle -->
+      <div class="text-center mb-4">
+        <div class="btn-group" role="group" aria-label="Role Selection">
+          <input type="radio" class="btn-check" name="role" id="studentToggle" value="student" autocomplete="off"
+            checked>
+          <label class="btn btn-outline-primary" for="studentToggle">
+            <i class="fas fa-user-graduate"></i> Student
+          </label>
+
+          <input type="radio" class="btn-check" name="role" id="adminToggle" value="admin" autocomplete="off">
+          <label class="btn btn-outline-secondary" for="adminToggle">
+            <i class="fas fa-user-tie"></i> Admin
+          </label>
+        </div>
+      </div>
+
+      <!-- Admin Fields -->
+      <div id="adminFields" class="user-fields d-none">
+        <div class="mb-3">
+          <label for="adminUsername" class="form-label">
+            <i class="fas fa-user"></i> Admin Username
+          </label>
+          <input type="text" class="form-control" id="adminUsername" name="username" placeholder="Enter admin username">
+        </div>
+        <div class="mb-3">
+          <label for="adminPassword" class="form-label">
+            <i class="fas fa-lock"></i> Password
+          </label>
+          <div class="input-group">
+            <input type="password" class="form-control" id="adminPassword" name="password" placeholder="Enter password">
+            <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('adminPassword')">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Student Fields -->
+      <div id="studentFields" class="user-fields">
+        <div class="mb-3">
+          <label for="studentUSN" class="form-label">
+            <i class="fas fa-id-badge"></i> USN
+          </label>
+          <input type="text" class="form-control" id="studentUSN" name="usn" placeholder="Enter your USN">
+        </div>
+        <div class="mb-3">
+          <label for="studentPassword" class="form-label">
+            <i class="fas fa-lock"></i> Password
+          </label>
+          <div class="input-group">
+            <input type="password" class="form-control" id="studentPassword" name="studentpass" placeholder="Enter password">
+            <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('studentPassword')">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">
+        <i class="fas fa-arrow-circle-right"></i> Login
+      </button>
+    </form>
+    <div id="signup" style="margin-top: 5%; font-size: large;">
+      <p class="text-center">Don't have an account? <a href="{{ url_for('student_signup') }}">Sign Up</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- Script to Toggle Form Fields -->
+<script>
+  // Toggle form fields based on user type selection
+  const studentToggle = document.getElementById('studentToggle');
+  const adminToggle = document.getElementById('adminToggle');
+  const adminFields = document.getElementById('adminFields');
+  const studentFields = document.getElementById('studentFields');
+  const signup = document.getElementById('signup');
+
+  function toggleFields() {
+    if (adminToggle.checked) {
+      adminFields.classList.remove('d-none');
+      studentFields.classList.add('d-none');
+      signup.classList.add('d-none');
+    } else {
+      adminFields.classList.add('d-none');
+      studentFields.classList.remove('d-none');
+      signup.classList.remove('d-none');
+    }
+  }
+  function togglePasswordVisibility(fieldId) {
+    const passwordField = document.getElementById(fieldId);
+    if (passwordField.type === "password") {
+      passwordField.type = "text";
+    } else {
+      passwordField.type = "password";
+    }
+  }
+  studentToggle.addEventListener('change', toggleFields);
+  adminToggle.addEventListener('change', toggleFields);
+</script>
+
+{% endblock %} <!-- End section -->
